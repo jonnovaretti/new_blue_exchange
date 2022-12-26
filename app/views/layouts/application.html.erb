@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang class="h-full bg-gray-50">
+  <head>
+    <title>Core</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+    <%= stylesheet_link_tag "tailwind", "inter-font", "data-turbo-track": "reload" %>
+
+    <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
+    <%= javascript_importmap_tags %>
+  </head>
+
+  <body class="h-full">
+    <main class="container mx-auto mt-15 px-5">
+      <p class="text-sm text-center font-small notice text-green-600"><%= notice %></p>
+      <p class="text-sm text-center font-small alert bg-red-300"><%= alert %></p>
+      <%= yield %>
+    </main>
+  </body>
+</html>
