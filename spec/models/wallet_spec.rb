@@ -1,10 +1,11 @@
 require 'rails_helper'
 
 RSpec.describe Wallet, type: :model do
-  subject(:wallet) { build(:wallet) }
+  subject(:wallet) { create(:wallet) }
 
   describe 'associations' do
     it { should belong_to(:user) }
+    it { should belong_to(:currency) }
   end
 
   describe 'validations' do
