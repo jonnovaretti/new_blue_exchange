@@ -1,0 +1,30 @@
+<div id="<%= dom_id offer %>">
+  <p class="my-5">
+    <strong class="block font-medium mb-1">Amount:</strong>
+    <%= offer.amount %>
+  </p>
+
+  <p class="my-5">
+    <strong class="block font-medium mb-1">Currency amount:</strong>
+    <%= offer.currency_amount_id %>
+  </p>
+
+  <p class="my-5">
+    <strong class="block font-medium mb-1">Unit price:</strong>
+    <%= offer.unit_price %>
+  </p>
+
+  <p class="my-5">
+    <strong class="block font-medium mb-1">Currency unit price:</strong>
+    <%= offer.currency_unit_price_id %>
+  </p>
+
+  <p class="my-5">
+    <strong class="block font-medium mb-1">User:</strong>
+    <%= offer.user_id %>
+  </p>
+
+  <% if action_name != "show" %>
+    <%= link_to "Show this offer", offer, class: "rounded-lg py-3 px-5 bg-gray-100 inline-block font-medium" %>
+  <% end %>
+</div>

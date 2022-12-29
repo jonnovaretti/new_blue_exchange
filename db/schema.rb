@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_12_27_231342) do
+ActiveRecord::Schema[7.0].define(version: 2022_12_28_234151) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -19,6 +19,21 @@ ActiveRecord::Schema[7.0].define(version: 2022_12_27_231342) do
     t.string "code"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "offers", force: :cascade do |t|
+    t.decimal "amount", null: false
+    t.decimal "unit_price", null: false
+    t.bigint "user_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.string "state", default: "created", null: false
+    t.bigint "currency_amount_id", null: false
+    t.bigint "currency_unit_price_id", null: false
+    t.index ["id", "currency_amount_id", "currency_unit_price_id"], name: "index_id_and_currency_amount_and_unit_price_id", unique: true
+    t.index ["id", "currency_amount_id"], name: "index_offers_on_id_and_currency_amount_id"
+    t.index ["id", "currency_unit_price_id"], name: "index_offers_on_id_and_currency_unit_price_id"
+    t.index ["user_id"], name: "index_offers_on_user_id"
   end
 
   create_table "users", force: :cascade do |t|
@@ -49,6 +64,9 @@ ActiveRecord::Schema[7.0].define(version: 2022_12_27_231342) do
     t.index ["user_id"], name: "index_wallets_on_user_id"
   end
 
+  add_foreign_key "offers", "currencies", column: "currency_amount_id"
+  add_foreign_key "offers", "currencies", column: "currency_unit_price_id"
+  add_foreign_key "offers", "users"
   add_foreign_key "wallets", "currencies"
   add_foreign_key "wallets", "users"
 end

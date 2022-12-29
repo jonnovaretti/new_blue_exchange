@@ -1,0 +1,160 @@
+<div class="grid sm:grid-cols-4">
+  <%= render partial: 'shared/sidebar' %>
+  <div class="col-span-3">
+    <div class="grid sm:grid-cols-2">
+      <div class="mr-5">
+        <div
+          class="w-full max-w-md p-4 bg-white border rounded-lg shadow-md sm:p-8 white:bg-gray-800 white:border-gray-700"
+        >
+          <div class="flex items-center justify-between mb-4">
+            <h5
+              class="text-xl font-bold leading-none text-gray-900 white:text-white"
+            >
+              Wallet
+            </h5>
+          </div>
+          <div class="flow-root">
+            <ul
+              role="list"
+              class="divide-y divide-gray-200 white:divide-gray-700"
+            >
+              <% @user.wallets.each do |wallet| %>
+              <li class="py-3 sm:py-4">
+                <div class="flex items-center space-x-4">
+                  <div class="flex-shrink-0">
+                    <div
+                      class="inline-flex overflow-hidden relative justify-center items-center w-10 h-10 bg-blue-100 rounded-full white:bg-blue-600"
+                    >
+                      <span
+                        class="font-medium text-gray-600 white:text-gray-300"
+                      >
+                        <%= wallet.currency.code %>
+                      </span>
+                    </div>
+                  </div>
+                  <div class="flex-1 min-w-0">
+                    <p
+                      class="text-sm font-medium text-center text-gray-900 truncate white:text-white"
+                    >
+                      <%= "#{wallet.currency.symbol} #{wallet.available_amount}"
+                      %>
+                    </p>
+                    <p
+                      class="text-sm text-gray-500 text-center truncate white:text-gray-400"
+                    >
+                      available
+                    </p>
+                  </div>
+                  <div class="flex-1 min-w-0">
+                    <p
+                      class="text-sm font-medium text-center text-gray-900 truncate white:text-white"
+                    >
+                      <%= "#{wallet.currency.symbol} #{wallet.hold_amount}" %>
+                    </p>
+                    <p
+                      class="text-sm text-gray-500 text-center truncate white:text-gray-400"
+                    >
+                      hold
+                    </p>
+                  </div>
+                  <div class="flex-1 min-w-0">
+                    <p
+                      class="text-sm font-medium text-center text-gray-900 truncate white:text-white"
+                    >
+                      <%= "#{wallet.currency.symbol} #{wallet.available_amount +
+                      wallet.hold_amount}" %>
+                    </p>
+                    <p
+                      class="text-sm text-gray-500 text-center truncate white:text-gray-400"
+                    >
+                      total
+                    </p>
+                  </div>
+                </div>
+              </li>
+              <% end %>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="mr-5">
+        <div
+          class="w-full max-w-md p-4 bg-white border rounded-lg shadow-md sm:p-8 white:bg-gray-800 white:border-gray-700"
+        >
+          <div class="flex items-center justify-between mb-4">
+            <h5
+              class="text-xl font-bold leading-none text-gray-900 white:text-white"
+            >
+              Last Offers
+            </h5>
+            <a
+              href="#"
+              class="text-sm font-medium text-blue-600 hover:underline white:text-blue-500"
+            >
+              View all
+            </a>
+          </div>
+          <div class="flow-root">
+            <ul
+              role="list"
+              class="divide-y divide-gray-200 white:divide-gray-700"
+            >
+              <% @user.offers.each do |offer| %>
+              <li class="py-3 sm:py-4">
+                <%= link_to edit_user_offer_path(offer), class: "text-base
+                font-medium text-gray-500 hover:text-gray-900" do %>
+                <div class="flex items-center space-x-4">
+                  <div class="flex-shrink-0 w-10 mr-3">
+                    <span
+                      class="bg-blue-100 text-blue-800 text-xs font-semibold px-2.5 py-0.5 rounded dark:bg-blue-200 dark:text-blue-800"
+                    >
+                      <%= offer.state.capitalize %>
+                    </span>
+                  </div>
+                  <div class="flex-1 min-w-0">
+                    <p
+                      class="text-sm font-medium text-center text-gray-900 truncate white:text-white"
+                    >
+                      U$ <%= offer.amount %>
+                    </p>
+                    <p
+                      class="text-sm text-gray-500 text-center truncate white:text-gray-400"
+                    >
+                      amount
+                    </p>
+                  </div>
+                  <div class="flex-1 min-w-0">
+                    <p
+                      class="text-sm font-medium text-center text-gray-900 truncate white:text-white"
+                    >
+                      R$ <%= offer.unit_price %>
+                    </p>
+                    <p
+                      class="text-sm text-gray-500 text-center truncate white:text-gray-400"
+                    >
+                      unit price
+                    </p>
+                  </div>
+                  <div class="flex-1 min-w-0">
+                    <p
+                      class="text-sm font-medium text-center text-gray-900 truncate white:text-white"
+                    >
+                      R$ <%= offer.total_price %>
+                    </p>
+                    <p
+                      class="text-sm text-gray-500 text-center truncate white:text-gray-400"
+                    >
+                      total
+                    </p>
+                  </div>
+                </div>
+                <% end %>
+              </li>
+              <% end %>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

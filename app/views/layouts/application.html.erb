@@ -2,6 +2,7 @@
 <html lang class="h-full bg-gray-50">
   <head>
     <title>Core</title>
+    <%= favicon_link_tag asset_path('favicon.ico') %>
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
@@ -11,7 +12,8 @@
     <%= javascript_importmap_tags %>
   </head>
 
-  <body class="h-full">
+  <body class="h-full bg-white">
+    <%= render partial: 'shared/top_menu' %>
     <main class="container mx-auto mt-15 px-5">
       <p class="text-sm text-center font-small notice text-green-600"><%= notice %></p>
       <p class="text-sm text-center font-small alert bg-red-300"><%= alert %></p>
