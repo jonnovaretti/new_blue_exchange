@@ -43,7 +43,7 @@ Rails.application.configure do
   config.action_mailer.default_url_options = { host: 'localhost', port: 3000 }
   config.action_mailer.smtp_settings = {
     user_name:     'apikey',
-    password:      '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',
+    password:      Rails.application.credentials.sendgrid[:token],
     domain:        'newblueexchange.com',
     address:       'smtp.sendgrid.net',
     port:          '587',

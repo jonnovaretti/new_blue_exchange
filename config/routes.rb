@@ -5,7 +5,7 @@ Rails.application.routes.draw do
   
   resource :user do
     resources :wallets, only: [:index]
-    resources :offers, except: [:index, :show], controller: :user_offers
+    resources :offers, except: [:show], controller: :user_offers
     get 'dashboard' => 'dashboard#index'
   end
 

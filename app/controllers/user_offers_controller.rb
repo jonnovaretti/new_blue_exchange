@@ -1,6 +1,10 @@
 class UserOffersController < ApplicationController
   before_action :set_offer, only: %i[show edit update destroy]
 
+  def index
+    @offers = Offer.where(user: current_user)
+  end
+
   def new
     @offer = Offer.new
   end
@@ -10,9 +14,10 @@ class UserOffersController < ApplicationController
   end
 
   def create
-    @offer = Offer.new(offer_params.merge(user: current_user,
-                                          currency_amount: Currency.currency_usd,
-                                          currency_unit_price: Currency.currency_brl))
+    @offer = Core::CreateOffer.call(offer_params.merge(user: current_user,
+                                                       currency_amount: Currency.currency_usd,
+                                                       currency_unit_price: Currency.currency_brl))
+
     respond_to do |format|
       if @offer.save
         format.html { redirect_to user_offers_url, notice: 'Offer was successfully created.' }
