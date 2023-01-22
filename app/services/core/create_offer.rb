@@ -1,37 +1,36 @@
 module Core
   class CreateOffer < ApplicationService
-    def initialize(offer_params, wallet)
-      raise ArgumentError, 'Offer_params is required' if offer_params.nil?
-      raise ArgumentError, 'Wallet is required' if wallet.nil?
+    include Interactor
 
-      @offer_params = offer_params
-      @wallet = wallet
+    before do
+      context.fail!(error: 'User is required') if context.user.nil?
+      context.fail!(error: 'Offer_params is required') if context.offer_params.nil?
 
-      validate_currencies
+      @offer_params = context.offer_params
+      @user = context.user
     end
 
     def call
-      @offer = Offer.new(offer_params)
-      wallet.transfer_amount_to_hold(offer.amount)
+      @offer = Offer.new(offer_params.merge(user: user))
 
-      add_errors_to_offer if wallet.invalid?
-      return offer if any_model_invalid?
+      @wallet = Wallet.find_by(user_id: user.id, currency_id: offer.currency_amount.id)
+      @wallet.transfer_amount_to_hold(offer.amount)
 
-      persist_changes
+      prepare_context
+      
+      context.fail!(wallet.errors) if wallet.invalid?
+      context.fail!(offer.errors) if offer.invalid?
 
-      offer
+      persist_changes if context.success?
     end
 
     private
 
-    attr_reader :offer, :offer_params, :wallet
+    attr_reader :offer, :offer_params, :user, :wallet
 
-    def any_model_invalid?
-      offer.invalid? || wallet.invalid?
-    end
-
-    def add_errors_to_offer
-      offer.errors.copy!(wallet.errors)
+    def prepare_context
+      context.offer = offer
+      context.wallet = wallet
     end
 
     def persist_changes
@@ -39,12 +38,6 @@ module Core
         wallet.save!
         offer.save!
       end
-    end
-
-    def validate_currencies
-      return unless wallet.currency != offer_params[:currency_amount]
-
-      raise ArgumentError, 'Currency amount needs to be the same as wallet currency'
     end
   end
 end

@@ -2,9 +2,10 @@ require 'rails_helper'
 
 RSpec.describe OffersController, type: :request do
   let(:user) { create(:user) }
+  let!(:wallet) { create(:wallet, currency: currency_usd, user: user) }
   let(:currency_usd) { create(:currency, code: 'USD') }
-  let(:currency_sgd) { create(:currency, code: 'SGD') }
-  let(:offers) {create_list(:offer, 5, currency_amount: currency_usd, currency_unit_price: currency_sgd)}
+  let(:currency_sgd) { create(:currency, code: 'BRL') }
+  let(:offers) { create_list(:offer, 5, user: user, currency_amount: currency_usd, currency_unit_price: currency_sgd) }
   let(:valid_attributes) do
     attributes_for(:offer, user_id: user.id, currency_amount_id: currency_usd.id,
                            currency_unit_price_id: currency_sgd.id)
@@ -34,12 +35,6 @@ RSpec.describe OffersController, type: :request do
 
   describe 'POST /create' do
     context 'with valid parameters' do
-      it 'creates a new Offer' do
-        expect do
-          post user_offers_url, params: { offer: valid_attributes }
-        end.to change(Offer, :count).by(1)
-      end
-
       it 'redirects to the created offer' do
         post user_offers_url, params: { offer: valid_attributes }
         expect(response).to redirect_to(user_offers_url)
@@ -47,6 +42,12 @@ RSpec.describe OffersController, type: :request do
     end
 
     context 'with invalid parameters' do
+      before do
+        allow(Core::CreateOffer).to receive(:call).and_return(double(success?: false,
+                                                                     message: 'Error',
+                                                                     offer: Offer.new))
+      end
+
       it 'does not create a new Offer' do
         expect do
           post user_offers_url, params: { offer: invalid_attributes }

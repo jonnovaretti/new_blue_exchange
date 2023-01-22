@@ -28,7 +28,7 @@
       <%= form.number_field :amount, value: number_to_currency(offer.amount, delimiter: '', unit: ''), step: 0.01, class: "bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2.5  white:bg-gray-700 white:border-gray-600 white:placeholder-gray-400 white:text-white white:focus:ring-blue-500 white:focus:border-blue-500" %>
     </div>
     <div class="flex items-center ml-5 mr-4">
-      <%= form.radio_button :currency_amount, Currency.find_by(code: 'USD').id, checked: true, class: "w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 white:focus:ring-blue-600 white:ring-offset-gray-800 focus:ring-2 white:bg-gray-700 white:border-gray-600" %>
+      <%= form.radio_button :currency_amount, 2, checked: true, class: "w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 white:focus:ring-blue-600 white:ring-offset-gray-800 focus:ring-2 white:bg-gray-700 white:border-gray-600" %>
       <label for="inline-radio" class="ml-2 text-sm font-medium text-gray-900 white:text-gray-300">Dolar</label>
     </div>
     <div class="flex items-center">
@@ -54,7 +54,7 @@
         <label for="inline-radio" class="ml-2 text-sm font-medium text-gray-400 white:text-gray-500">Dolar</label>
     </div>
     <div class="flex items-center">
-      <%= form.radio_button :currency_unit_price, Currency.find_by(code: 'BRL').id, checked: true, class: "w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 white:focus:ring-blue-600 white:ring-offset-gray-800 focus:ring-2 white:bg-gray-700 white:border-gray-600" %>
+      <%= form.radio_button :currency_unit_price, 1, checked: true, class: "w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 white:focus:ring-blue-600 white:ring-offset-gray-800 focus:ring-2 white:bg-gray-700 white:border-gray-600" %>
         <label for="inline-disabled-radio" class="ml-2 text-sm font-medium text-gray-900 white:text-gray-300">Brazilian Real</label>
     </div>
   </div>

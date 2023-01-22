@@ -14,17 +14,16 @@ class UserOffersController < ApplicationController
   end
 
   def create
-    @offer = Core::CreateOffer.call(offer_params.merge(user: current_user,
-                                                       currency_amount: Currency.currency_usd,
-                                                       currency_unit_price: Currency.currency_brl))
+    result = Core::CreateOffer.call(user: current_user, offer_params: offer_params.merge(currency_amount: Currency.currency_usd,
+                                                                                         currency_unit_price: Currency.currency_brl))
 
     respond_to do |format|
-      if @offer.save
+      if result.success?
         format.html { redirect_to user_offers_url, notice: 'Offer was successfully created.' }
-        format.json { render :show, status: :created, location: @offer }
       else
+        @offer = result.offer
+        flash.now[:message] = result.message
         format.html { render :new, status: :unprocessable_entity }
-        format.json { render json: @offer.errors, status: :unprocessable_entity }
       end
     end
   end
