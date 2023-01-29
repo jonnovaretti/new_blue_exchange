@@ -1,5 +1,5 @@
-<%= form_with(model: offer, url: user_offers_path, class: "contents") do |form|%> 
-<% if offer.errors.any? %>
+<%= form_with(model: offer, url: user_offers_path, id: 'user_offers_form', class: "contents") do |form|%> 
+<% if @result.present? && @result.error.any? %>
 <div
   id="error_explanation"
   class="bg-red-50 text-red-500 px-3 py-2 font-medium rounded-lg mt-3"
@@ -9,13 +9,12 @@
   </h2>
 
   <ul>
-    <% offer.errors.each do |error| %>
+    <% @result.error.each do |error| %>
     <li><%= error.full_message %></li>
     <% end %>
   </ul>
 </div>
 <% end %>
-
 <div class="my-5">
   <%= form.label :amount %> 
   <div class="flex">

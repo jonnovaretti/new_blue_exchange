@@ -32,6 +32,11 @@ gem "jbuilder"
 
 gem "aasm"
 
+gem "rubocop-rails", require: false
+
+# Gem font awesome
+gem "font-awesome-rails"
+
 # Use Redis adapter to run Action Cable in production
 # gem "redis", "~> 4.0"
 

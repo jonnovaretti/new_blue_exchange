@@ -1,8 +1,10 @@
+# frozen_string_literal: true
+
 class UserOffersController < ApplicationController
-  before_action :set_offer, only: %i[show edit update destroy]
+  before_action :set_offer, only: %i[edit update destroy]
 
   def index
-    @offers = Offer.where(user: current_user)
+    @offers = Offer.where(user: current_user).order(created_at: :desc)
   end
 
   def new
@@ -14,16 +16,17 @@ class UserOffersController < ApplicationController
   end
 
   def create
-    result = Core::CreateOffer.call(user: current_user, offer_params: offer_params.merge(currency_amount: Currency.currency_usd,
-                                                                                         currency_unit_price: Currency.currency_brl))
+    @result = Core::CreateOffer.call(user: current_user, offer_params: offer_params.merge(currency_amount: Currency.currency_usd,
+                                                                                          currency_unit_price: Currency.currency_brl))
 
     respond_to do |format|
-      if result.success?
+      if @result.success?
         format.html { redirect_to user_offers_url, notice: 'Offer was successfully created.' }
       else
-        @offer = result.offer
-        flash.now[:message] = result.message
-        format.html { render :new, status: :unprocessable_entity }
+        format.turbo_stream do
+          render turbo_stream: turbo_stream.replace('user_offers_form',
+                                                    partial: 'form', locals: { offer: @result.offer })
+        end
       end
     end
   end
@@ -41,7 +44,7 @@ class UserOffersController < ApplicationController
   end
 
   def destroy
-    @offer.destroy
+    @offer.destroy!
 
     respond_to do |format|
       format.html { redirect_to offers_url, notice: 'Offer was successfully destroyed.' }

@@ -1,0 +1,11 @@
+<div class="text-center text-blue-800 text-xs font-semibold px-2.5 py-0.5 mb-5">
+    <% current_user.wallets.each do |wallet| %>
+        <%= fa_icon "money" %>
+        <span class="mr-2 ml-2">
+        <%= wallet.currency.code %> WALLET: 
+        <%= "#{wallet.currency.symbol} #{wallet.available_amount}" %> available,
+        <%= "#{wallet.currency.symbol} #{wallet.hold_amount}" %> hold
+        </span>
+        <%= fa_icon "money" %>
+    <% end %>
+</div>

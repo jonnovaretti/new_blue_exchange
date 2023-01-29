@@ -18,8 +18,8 @@ module Core
 
       prepare_context
       
-      context.fail!(wallet.errors) if wallet.invalid?
-      context.fail!(offer.errors) if offer.invalid?
+      context.fail!(error: wallet.errors) if wallet.invalid?
+      context.fail!(error: offer.errors) if offer.invalid?
 
       persist_changes if context.success?
     end
