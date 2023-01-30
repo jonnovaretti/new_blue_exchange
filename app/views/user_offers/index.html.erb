@@ -3,75 +3,37 @@
   <%= render partial: 'shared/sidebar' %>
   <div class="col-span-2">
     <div class="flex items-center justify-between mb-4">
-      <h1 class="text-xl font-bold leading-none text-black-900">
-        All offers
-      </h1>
-      <%= link_to new_user_offer_path, class: "-m-3 flex items-center rounded-md p-3 text-base font-medium text-black-900" do %> 
-        <span class="ml-3 text-blue-800">new offer</span>
-        <svg class="h-6 w-6 flex-shrink-0 text-gray-400" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v12m6-6H6" />
-        </svg>
+      <h1 class="text-xl font-bold leading-none text-black-900">All offers</h1>
+      <%= link_to new_user_offer_path, class: "-m-3 flex items-center rounded-md
+      p-3 text-base font-medium text-black-900" do %>
+      <span class="ml-3 text-blue-800">new offer</span>
+      <svg
+        class="h-6 w-6 flex-shrink-0 text-gray-400"
+        xmlns="http://www.w3.org/2000/svg"
+        fill="none"
+        viewBox="0 0 24 24"
+        stroke-width="1.5"
+        stroke="currentColor"
+        aria-hidden="true">
+        <path
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          d="M12 6v12m6-6H6" />
+      </svg>
       <% end %>
     </div>
     <br />
     <div class="overflow-x-auto relative shadow-md sm:rounded-lg">
-      <table class="w-full text-sm text-left text-gray-500 white:text-gray-400">
-        <thead
-          class="text-xs text-gray-700 uppercase bg-gray-50 white:bg-gray-700 white:text-gray-400">
-          <tr>
-            <th scope="col" class="py-2 px-3">State</th>
-            <th scope="col" class="py-2 px-3">Amount</th>
-            <th scope="col" class="py-2 px-3">Unit price</th>
-            <th scope="col" class="py-2 px-3">Total</th>
-            <th scope="col" class="text-center py-2 px-3">Actions</th>
-          </tr>
-        </thead>
-        <tbody>
-          <% @offers.each do |offer| %>
-          <tr class="bg-white border-b white:bg-gray-900 white:border-gray-700">
-            <th
-              scope="row"
-              class="py-2 px-3 font-medium text-gray-900 whitespace-nowrap white:text-white">
-              <div class="flex-shrink-0 w-10 mr-3">
-                <span
-                  class="bg-blue-100 text-blue-800 text-xs font-semibold px-2.5 py-0.5 rounded white:bg-blue-200 white:text-blue-800">
-                  <%= offer.state.capitalize %>
-                </span>
-              </div>
-            </th>
-            <td class="py-2 px-3">U$ <%= offer.amount %></td>
-            <td class="py-2 px-3">R$ <%= offer.unit_price %></td>
-            <td class="py-2 px-3">R$ <%= offer.total_price %></td>
-            <td class="text-center">
-              <a
-                href="#"
-                class="font-medium text-blue-600 white:text-blue-500 hover:underline">
-                <span
-                  class="mr-2 border border-gray-300 bg-gray-100 text-blue-800 text-xs font-semibold px-2 py-0.5 rounded white:bg-blue-200 white:text-blue-800">
-                  Publish
-                </span>
-              </a>
-              <a
-                href="#"
-                class="font-medium text-blue-600 white:text-blue-500 hover:underline">
-                <span
-                  class="mr-2 border border-gray-300 bg-gray-100 text-blue-800 text-xs font-semibold px-2 py-0.5 rounded white:bg-blue-200 white:text-blue-800">
-                  Close
-                </span>
-              </a>
-              <a
-                href="#"
-                class="font-medium text-blue-600 white:text-blue-500 hover:underline">
-                <span
-                  class="mr-2 border border-gray-300 bg-gray-100 text-blue-800 text-xs font-semibold px-2 py-0.5 rounded white:bg-blue-200 white:text-blue-800">
-                  Edit
-                </span>
-              </a>
-            </td>
-          </tr>
-          <% end %>
-        </tbody>
-      </table>
+      <div class="grid grid-cols-6 bg-gray-100">
+        <div class="grid-header col-span-1 text-center">state</div>
+        <div class="grid-header col-span-1 text-center">U$ amount</div>
+        <div class="grid-header col-span-1 text-center">R$ unit price</div>
+        <div class="grid-header col-span-1 text-center">R$ total price</div>
+        <div class="grid-header col-span-2 text-center">actions</div>
+      </div>
+      <% @offers.each do |offer| %>
+        <%= render 'offer_line', offer: offer %> 
+      <% end %>
     </div>
   </div>
 </div>

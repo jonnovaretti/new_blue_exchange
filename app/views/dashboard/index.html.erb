@@ -100,7 +100,8 @@
               role="list"
               class="divide-y divide-gray-200 white:divide-gray-700"
             >
-              <% @user.offers.each do |offer| %>
+              <% offers = @user.offers.order(created_at: :desc).limit(5) %> 
+              <% offers.each do |offer| %>
               <li class="py-3 sm:py-4">
                 <%= link_to edit_user_offer_path(offer), class: "text-base
                 font-medium text-gray-500 hover:text-gray-900" do %>

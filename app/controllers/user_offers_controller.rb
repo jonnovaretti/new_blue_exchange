@@ -34,11 +34,13 @@ class UserOffersController < ApplicationController
   def update
     respond_to do |format|
       if @offer.update(offer_params)
+        format.turbo_stream do
+          render turbo_stream: turbo_stream.replace("#{helpers.dom_id(@offer)}_line", partial: 'offer_line',
+                                                                                      locals: { offer: @offer })
+        end
         format.html { redirect_to user_offers_url, notice: 'Offer was successfully updated.' }
-        format.json { render :show, status: :ok, location: @offer }
       else
         format.html { render :edit, status: :unprocessable_entity }
-        format.json { render json: @offer.errors, status: :unprocessable_entity }
       end
     end
   end
@@ -59,6 +61,6 @@ class UserOffersController < ApplicationController
   end
 
   def offer_params
-    params.require(:offer).permit(:amount, :unit_price)
+    params.require(:offer).permit(:amount, :unit_price, :state)
   end
 end
